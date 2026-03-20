@@ -13,7 +13,7 @@
             = gcd(b, r1), b = rq2 + r2
             = gcd(r1, r2)
 
--The Modulus (p. 51)
+- The Modulus (p. 51)
  a mod n <=> a를 n으로 나눈 나머지
  a = qn + r, 0 <= r < n; q = [a/n] (바닥함수)
    = [a/n] * n + (a mod n)
