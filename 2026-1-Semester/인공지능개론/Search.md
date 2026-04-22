@@ -1,4 +1,4 @@
-- Search
+- Search (모든 문제에는 시작과 끝이 존재)
   - agent: 문제를 해결하려는 주체
   - state: agent와 그를 둘러싼 환경의 구성
   - Search Problems 5가지 핵심 요소
