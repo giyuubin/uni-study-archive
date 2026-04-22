@@ -55,21 +55,28 @@
       - (A∨B∨C)∧(D∨¬E)∧(F∨G)
       - **분해 증명을 수행하려면 반드시 모든 문장이 CNF형태로 변환되어야 한다**
       - **not도 무조건 절 안에 있어야 한다**
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-   
+      - Conversion to CNF // Resolution 쉽게 => 한 눈에 충돌 확인 가능
+        - (α↔β) 를 (α→β)∧(β→α) 로 변환
+        - (α→β) 를 ¬α∨β 로 변환
+        - ¬(α∧β) 를 ¬α∨¬β 로 변환
+        - α∨(β∧γ) 를 (α∨β)∧(α∨γ) 로 변환 // CNF의 정의에 맞게 괄호 안은 ∨로만, 괄호 밖은 ∧로만 묶이도록 ∨ 기호를 안으로 분배
+      - Empty Clause(빈 절): (), 논리적으로 false이자 모순을 의미한다
+    - Inference by Resolution
+      - KB⊨α 증명
+        1. 모순 가정 세팅: 증명을 시작하기 위해, agent의 지식이 참이면서 질의가 false라고 가정한다. 즉, 전체 식을 (KB∧¬α) 로 만든다
+        2. CNF 변환: 세팅된 (KB∧¬α) 식 전체를 CNF로 변환
+        3. 분해 반복: CNF로 변환된 절들을 살펴, Resolution 규칙을 적용해 상충되는 리터럴을 지우고 New Clause를 계속해서 생성
+        4. 모순 확인(빈 절 도출): 과정을 반복하다가 상충되는 단일 명제가 만나 ()이 도출된다면, 처음 세팅한 (KB∧¬α)에서 모순 발생한 것. 따라서 초기 가정이 틀렸으므로, 원래 증명하고자 했던 KB⊨α는 true
+        5. 종료: 계속 분해를 진행해도 더 이상 새로운 절이 만들어지지 않고 ()도 나오지 않는다면, KB는 α를 함의하지 않는 것으로 결론 내린다
+  - First-Order Logic(1차 논리)
+    - vs Propositional Logic(명제 논리)
+      - 하나의 사실을 통째로 단일 기호로 만들었던 명제 논리와 달리, 객체와 그들의 속성 및 관계를 분리해서 지식을 훨씬 효율적이고 유연하게 표현하는 논리 체계
+      - 1차 논리는 명제 논리보다 표현력이 뛰어나며, 일반적인 법칙을 한 줄의 수식으로 정의할 수 있다
+    - Constant Symbol(상수 기호): Ex: Minerva, Pomona, Horace, Gilderoy, Gryffindor, Hufflepuff 등
+    - Predicate Symbol(술어 기호): Ex: Person (사람이다), House (기숙사이다), BelongsTo (~에 속한다)
+      - Ex: Person(Minerva): 미네르바는 사람이다
+      - Ex: BelongsTo(Minerva,Gryffindor): 미네르바는 그리핀도르에 속한다
+    - Universal Quantification(∀, 전칭 기호): for all(모든) 객체에 대하여 뒤의 수식이 true임을 나타내는 한정자
+      - Ex: ∀x.BelongsTo(x,Gryffindor)→¬BelongsTo(x,Hufflepuff): 모든 객체 x에 대해, 만약 x가 그리핀도르에 속한다면, x는 후플푸프에 속하지 않는다
+    - Existential Quantification(∃, 존재 기호): 조건을 만족하는 객체가 적어도 하나 존재한다는 것을 나타내는 한정자
+      - Ex: ∃x.House(x)∧BelongsTo(Minerva,x):  x가 기숙사이면서 미네르바가 x에 속하는, 그런 객체 x가 존재한다
