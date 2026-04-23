@@ -43,7 +43,44 @@
     - Marginalization(주변화): P(a)=P(a,b)+P(a,¬b) // 알고자 하는 특정 단일 변수만의 무조건부 확률 추
     - Conditioning(조건화): P(a)=P(a∣b)P(b)+P(a∣¬b)P(¬b)
   - Bayesian networks: 확률 변수들 사이에 존재하는 **의존성**을 시각적이고 수학적으로 나타내는 data structure
-    - 
+    - P(X∣Parents(X)): 네트워크 내의 각 노드 X가 가지는 고유한 조건부 확률 분포이다. 즉, 자신에게 화살표를 보내는 부모 노드들의 상태가 주어졌을 때, 자식 노드인 X가 특정 상태를 가질 확률을 뜻한다
+    - 상위노드가 없다 -> root node -> 조건부 확률X
+      - Ex: 부모가 없는 최상위 노드인 Rain 옆에는 {none: 0.7, light: 0.2, heavy: 0.1} 이라는 단순한 '무조건부 확률표'가 붙어 있음
+    - Ex: P(light,no,delayed,miss)=P(light)×P(no∣light)×P(delayed∣light,no)×P(miss∣delayed)
+      - X→Y 화살표는 X가 Y의 원인이 되는 부모(Parent)임을 의미
+  - Inference: (확률 기반)추론 => 어느 쪽에 더 근접한지
+    - Query X: 분포를 계산하고자 하는 목표 질의 변수
+    - Evidence variable E: 관측된 증거 변수
+    - Hidden variables Y: non-evidence(보이진 않지만, 존재함), non-query 변수
+    - Goal: Calculate P(X|e) // 조건부 확률의 분포가 아닌 보이는 e로부터 새로운 사실 도출
+    - <img width="426" height="66" alt="image" src="https://github.com/user-attachments/assets/363f64b7-689a-407d-b7c2-e11d37daebd3" />
+  - Approximatae Inference(근사 추론)
+    - Sampling: 베이지안 네트워크의 조건부 확률들을 바탕으로, 변수들에 무작위 값을 할당하여 하나의 구체적인 가능한 세계를 계속해서 만들어내는 과정 // 초기에 계산을 해둔다
+    - Rejection sampling: 무작위로 샘플을 만들다가 관측된 증거와 일치하지 않으면 그냥 버리는 방식. 하지만 증거가 발생할 확률이 매우 낮으면 샘플을 버리는 비율이 높아 비효율적
+    - Likelihood Weighting: rejection sampling의 비효율성을 극복하기 위해, 버려지는 샘플 없이 처음부터 증거 변수를 고정해놓고 샘플링 진행한 뒤, 해당 샘플이 생성해 낸 증거 발생 확률을 **가중치**로 곱하여 보정한다
+      - 작동 원리
+        1. 증거 고정: 관측된 증거인 Train=on_time을 가장 먼저 샘플에 고정 // 버려지는 샘플을 만들지 않기 위함
+        2. 은닉 변수 샘플링: 네트워크의 위에서부터 아래로 내려오며 증거가 아닌 변수들을 확률표에 따라 무작위 추출
+           - Rain 노드: P(Rain) 표 {none: 0.7, light: 0.2, heavy: 0.1} 에 따라 주사위를 굴립니다. 가령 R=light 가 뽑혔다고 가정
+           - Maintenance 노드: 부모가 R=light 로 정해졌으므로, P(M ∣ R=light) 인 {yes: 0.2, no: 0.8} 표에 따라 주사위를 굴립니다. 가령 M=yes 가 뽑혔다고 가정
+        3. 가중치 부여: 고정해 두었던 증거 변수(Train=on_time)의 '가능도(Likelihood)'를 계산하여 샘플의 가중치로 곱한다
+           - 현재까지 뽑힌 샘플의 부모 상태는 R=light,M=yes
+           - Train 의 조건부 확률표에서 부모가 R=light,M=yes 일 때 Train=on_time 일 확률을 찾아보면 0.6
+           - 따라서 이 샘플은 0.6의 가중치(Weight)를 얻게 됨
+           - 마지막으로 남은 Appointment 변수 역시 T=on_time 이라는 부모 조건하에 샘플링(예: A=attend)을 완료
+           - 완성된 샘플 [R=light, M=yes, T=on time, A=attend]는 단순한 1개의 샘플로 취급되는 것이 아니라, '0.6개'짜리 가치(Weight)를 지닌 샘플로 최종 취합
+  - Uncertainty over time
+    - 시간의 흐름에 따라 변화하는 모든 상태를 완벽히 계산하는 것은 불가능
+    - 인공지능은 연산량을 줄이기 위해 Assumption(가정)을 도입
+    - Markov Assumption: 시스템의 현재 상태는 오직 유한하고 고정된 이전 상태들에만 의존한다고 가정
+    - Markov Chain: 각 변수의 분포가 마르코프 가정을 따르는 확률 변수들의 연속적인 시퀀스이다
+    - Hidden Markov Model(HMM): 관측 가능한 사건을 생성해 내는 숨겨진 상태를 가진 시스템을 모델링하기 위한 마르코프 모델 // 우산을 들고 교실에 들어온다 -> 아마 비가 올 것이다
+      - Filtering: 시작부터 지금까지의 관측치들을 바탕으로, 현재 상태 분포 계산
+      - Prediction: 시작부터 지금까지의 관측치들을 바탕으로, 미래 상태 분포 계산
+      - Smoothing: 시작부터 지금까지의 관측치들을 바탕으로, 과거 상태 분포 계산
+      - Most likely explanation: 시작부터 지금까지의 관측치들을 바탕으로, 가장 가능성 높은 상태들의 전체 순서 계산
+    - Sensor Markov Assumption: 특정 증거(관측치) 변수는 오직 그 관측이 발생한 해당 시점의 상태에만 의존한다는 가정
+
 
 
 
