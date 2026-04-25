@@ -186,6 +186,16 @@
       - finally 블록(선택): 성공하든 에러가 나든 무조건 마지막에 실행되어야 하는 정리로직을 배치한다
     6. Lab: fetch API와 데이터 조작(async.js)
       - fetch: HTTP 요청을 보내고 Promise를 반환하는 Node.js 내장 함수 // 외부 인터넷(API)에서 데이터를 가져오는 함수
+  - JS Syntax: Module System
+    1. 모듈 시스템(CommonJS vs **ES Modules**)
+      - 프로젝트가 커지면 모든 코드를 하나의 파일에 담을 수 없다
+      - 코드를 기능별로 분리하고, 재사용하며, 변수 이름 충돌을 막기 위해 파일 단위로 코드를 쪼개는 것이 모듈 시스템이다
+      - CommonJS(CLS, 틀)
+        - 문법: 내보낼 때는 module.exports를 쓰고, 불러올 때는 require() 함수를 사용한다
+        - 동작 시점(런타임): 코드가 실행되는 도중에 해당 줄에 도달하면 그제야 파일을 동기적으로 불러와 실행한다 // .js확장자 파일에서 기본적으로 동작한다
+      - ES Modules(ESM, ES6)
+        - 문법: 내보낼 때는 export, 불러올 때는 import 키워드를 사용한다
+        - 
 
 
 
