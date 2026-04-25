@@ -14,3 +14,23 @@
     - Node.js의 등장
       - 2009년 Ryan Dahl이 크롬 브라우저의 핵심 해석기인 V8 엔진을 떼어내어 독립적인 런타임 Node.js를 개발함
       - 이로인해 JS는 브라우저에서 벗어나 서버 측(Backend) 코드를 작성 가능해짐
+    - 생태계 구조 비교
+      - 언어 코더: 둘 다 동일한 ECMAScript 규칙을 따름
+      - <img width="865" height="152" alt="image" src="https://github.com/user-attachments/assets/54857710-e00b-4bd5-9fc8-8c43fe3b5b07" />
+    - Node.js의 동작 원리
+      - 전통적인 서버 환경은 클라이언트의 요청이 들어올 때마다 새로운 Thread를 생성한다
+        - 이는 데이터베이스 응답이나 파일 읽기를 기다릴 때 서버 자원이 멈춰 비효율적이다
+      - Node.js는 단 하나의 스레드로 동작하며 비동기와 이벤트 기반 구조를 취한
+
+
+
+
+
+
+
+     
+
+
+
+
+
