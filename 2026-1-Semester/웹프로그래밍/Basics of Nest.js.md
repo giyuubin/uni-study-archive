@@ -53,11 +53,29 @@
     - **Nest.js는 강력한 구조로 규칙을 강제**하여 거대한 프로젝트를 안정적으로 유지하게 해준다
     
     - Nest.js 서버 뼈대 // 한 세트로 묶여 동작함
-      - Module(@Module): 관련된 코드들을 하나로 묶어주는 폴더이자 조립 단위
-      - Controller(@Controller):
-      - Service / Provider(@Injectable)
-      - 요청 처리 흐름: 
+      - Module(@Module): 관련된 코드들을 하나로 묶어주는 폴더이자 조립 단위.
+        모든 Nest.js앱은 최상위 AppModule을 가지며, 그 아래에 UsersModule, ReportModule같은 기능별 모듈 부품처럼 끼워 넣는다
+      - Controller(@Controller): 클라이언트의 HTTP 요청(GET, POST 등)을 가장 먼저 받아내고 응답을 반환하는 역할. 내부에 직접 비지니스 로직을 짜는 건 금지
+      - Service / Provider(@Injectable): 실제 데이터베이스를 조회하거나 연산을 수행하는 비지니스 로직 전담반이다
+      - 요청 처리 흐름(Macro 수준)
+        - 클라이언트가 GET / users 요청을 보냄
+        - Nest.js 라우터가 해당 URL을 담당하는 Controller 메서드 연결
+        - Controller는 Service의 메서드 호출
+        - Service가 로직을 처리해 결과 반환
+        - Controller가 그 결과를 클라이언트에게 HTTP 응답으로 반환
+  
+  4. 의존성 주입(DI)과 데코레이터(Decorators)
+    - DI(Dependency Injection): Controller가 Service를 사용할 때, 코드 안에서 직접 new Service()로 생성하지 않는다
+    - 대신 이 Service가 필요해라고 생성자에 선언만 해두면, Nest.js 시스템이 알아서 Service 객체를 생성해 전달한다
+    - 이래하면 컴포넌트간의 결합도가 낮아져 코드를 수정하거나 테스트하기가 쉬워진다
 
+    - 데코레이터(Decorators, @): 클래스나 메서드 위에 붙어 시스템에 부가 정보를 알려주는 표식
+      - 클래스 레벨: @Module, @Controller('reports'), @Injectable()
+      - 메서드 레벨: @Get(':id'), @Post()처럼 HTTP 메서드와 경로를 매핑함
+      - 파라미터 레벨(데이터 추출): 클라이언트가 보낸 데이터를 뽑아냄
+        - @Param('id'): URL 경로에서 뽑는다
+        - @Query('page'): 쿼리 스트링에서 뽑는다
+        - @Body(): JSON 본문 전체를 뽑는다
 
 
 
