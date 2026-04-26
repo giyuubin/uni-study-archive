@@ -1,6 +1,0 @@
-- Nest.js REST API
-  - REST API와 HTTP 통신
-    - 웹 백엔드 서버를 설계할 때는 개발자들이 공통으로 따르는 구조적 규칙이 필요하다
-    - 그것이 REST(Representational State Transfer) 아키텍처이다
-    - REST의 원칙
-      - 상태를 저장하지 않는 무상태성을 가진다.
