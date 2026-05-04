@@ -37,13 +37,33 @@
   - 수식:
     - 암호화: $C_j = E(K, [C_{j-1} \oplus p_j])$
     - 복호화: $D(K, C_j) = D(K, E(K, [C_{j-1} \oplus P_j])) = C_{j-1} \oplus P_j$
-    - 최종 평문 산출:$C_{j-1} \oplus D(K, C_j) = C_{j-1} \oplus C_{j-1} \oplus P_j = P_j$
+    - 최종 평문 산출:
+      - $C_{j-1} \oplus D(K, C_j)$ = $C_{j-1} \oplus C_{j-1} \oplus P_j$ = $P_j$
   - Initialzation Vector(IV): 첫 번째 평문 블록($P_1$)을 위해 사용되는 IV는 송신자와 수신자 모두 알고 있어야 하며, 제3자가 예측 불가능해야 한다 // 아 그러쿠나..
   - 장점: 평문의 패턴이 반복되더라도 Chaining 과정 때문에 서로 전혀 다른 암호문 블록이 생성되는 확산 효과 제공
   - **단점**:
     - 암호화 과정에서 피드백 구조 때문에 각 블록을 병렬로 암호화할 수 없다
     - 구조상 Error 발생시 계속 전파됨
 ---
+- CFB(Cipher **Feedback** Mode)
+  - 블록 암호는 원래 정해진 길이의 블록 단위로 수행되지만, CFB, OFB, CTR 모드를 사용하면 블록 암호를 Stream Cipher처럼 변환하여 사용할 수 있다
+  - <img width="638" height="345" alt="image" src="https://github.com/user-attachments/assets/b2abddc8-8279-4729-969d-67a79e4b6d99" />
+  - <img width="624" height="348" alt="image" src="https://github.com/user-attachments/assets/97c1b187-2522-4492-b942-c4b56be32d7e" />
+
+  - s-bit CFB 모드:
+    - 입력은 한 번에 $s$비트씩 처리된다
+    - 이전 암호문은 암호화 알고리즘의 입력으로 사용되어 의사 난수 출력을 생성함
+    - 이 출력값의 가장 높은(MSB) $s$비트를 현재 평문과 XOR하여 새로운 암호문 단위를 생성함
+  - 수식:
+    - 암호화:
+      - $I_1 = IV$, $I_j = LSB_{b-s}(I_{j-1})||C_{j-1}$
+      - $O_j = E(K, I_j)$
+      - $C_j = P_j \oplus MSB_8(O_j)$
+    - 복호화: $P_j = C_j \oplus MSB_8(O_j)$
+    - 특징: 암호화와 복호화 과정 모두에서 **오직 블록 암호의 암호화(Encryption) 함수만을 사용함**
+    - 장점: 스트림 암호
+
+
 
 
 
