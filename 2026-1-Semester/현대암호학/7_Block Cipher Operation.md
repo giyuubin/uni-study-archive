@@ -61,7 +61,27 @@
       - $C_j = P_j \oplus MSB_8(O_j)$
     - 복호화: $P_j = C_j \oplus MSB_8(O_j)$
     - 특징: 암호화와 복호화 과정 모두에서 **오직 블록 암호의 암호화(Encryption) 함수만을 사용함**
-    - 장점: 스트림 암호
+    - 단점: 암호문 자체를 시프트 레지스터로 피드백시키기 때문에, 전송 중 1비트 에러가 발생하면 후속 블록의 복호화 과정까지 영향을 미치는 오류전파가 존재
+---
+- OFB(Output Feedback Mode)
+  - CFB와 유사하지만, 암호화 알고리즘의 입력으로 사용되는 값이 이전 암호화의 직접적인 출력값($O_{j-1}$)이며, 전체 $b$ 비트 블록 단위로 운용된다는 차이가 있다
+  - <img width="629" height="305" alt="image" src="https://github.com/user-attachments/assets/a7231ae4-3d78-4212-9cdd-13d733c73afb" />
+  - <img width="615" height="303" alt="image" src="https://github.com/user-attachments/assets/472afe19-1b31-4204-980d-7cb3eda0bd5c" />
+
+  - 수식:
+    - 암호화:
+      - $I_1 = Nonce$
+      - $I_j = O_{j-1}$
+      - $O_j = E(K, I_j)$
+      - $C_j = P_j \oplus O_j$
+    - 마지막 $N$번째 블록(크기가 $u$비트일 때):
+      - $C_N^* = P_N^* \oplus MSB_u(O_N)$
+    - 장점:
+      - 독립적인 키 스트림: 평문이나 암호문의 내용과 전혀 무관하게, 초기 Nonce와 Key에 의해서만 결정되는 의사난수 비트 스트림($O_j$)을 생성하여 평문과 XOR 한다
+      - **오류 복구력 우수**: 이 독립성 때문에 통신 중 암호문 $C_j$에 전송 오류가 발생해도, 해당 위치로 평문 $P_j$ 비트만 깨질 뿐 다음 블록의 복호화에는 전혀 영향을 주지 않는다
+    - 단점: OFB는 메시지 스트림 수정 공격에 대해 CFB보다 더 취약함
+---
+- **기말 출제** CTR(Counter Mode) 
 
 
 
