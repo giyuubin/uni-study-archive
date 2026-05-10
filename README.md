@@ -1,2 +1,14 @@
 # uni-study-archive
-전공 수업 및 학습 기록 아카이브
+> Academic records and study materials at Gachon University.
+
+### 📅 [2026 Spring Semester (2nd Year)](./2026-1-Semester/)
+- **Modern Cryptography**
+- **System Security**
+- **Intro to AI**
+- **AI Programming**
+- **Data Structures**
+- **Web Programming**
+- **Performance Exchange Seminars**
+
+---
+📫 **Contact:** giyuubin@gachon.ac.kr | 🌐 **Web Archive:** [giyuubin.github.io](https://giyuubin.github.io)
