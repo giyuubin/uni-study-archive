@@ -1,4 +1,4 @@
-# 📖 인공지능 프로그래밍 Week 10: 앙상블 학습의 진화 (GBM, XGBoost, LightGBM)
+# 인공지능 프로그래밍 Week 10: 앙상블 학습의 진화 (GBM, XGBoost, LightGBM)
 
 이 문서는 Gradient Boosting Machine(GBM)의 기초부터, 이를 최적화한 XGBoost, 그리고 대용량 데이터 처리에 특화된 LightGBM까지의 발전 과정을 다룹니다.
 
